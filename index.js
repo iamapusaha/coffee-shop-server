@@ -77,6 +77,17 @@ async function run() {
             const result = await userCollection.insertOne(user)
             res.send(result)
         })
+        app.patch('/user', async (req, res) => {
+            const user = req.body;
+            const filter = { email: user.email }
+            const updateUserData = {
+                $set: {
+                    lastSignedAt: user.lastSignedAt
+                }
+            }
+            const result = await userCollection.updateOne(filter, updateUserData)
+            res.send(result)
+        })
         app.delete('/user/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
